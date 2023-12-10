@@ -1,8 +1,8 @@
-import { Fragment, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal } from "react";
+import { Fragment } from "react";
 
 import MainNavigation from "./MainNavigation";
 
-function Layout(props: { children: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }) {
+function Layout(props: { children: any }) {
   return (
     <Fragment>
       <MainNavigation />
