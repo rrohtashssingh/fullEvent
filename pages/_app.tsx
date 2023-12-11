@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
   //     router.push("/auth");
   //   } else {
   //     if (!profileSetup) {
-  //       router.push("/profileSetup");
+  //       router.push("/profilesetup");
   //     } else {
   //       router.push("/events");
   //     }
@@ -27,7 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // Check if the current route is under /auth
   const isAuthPage = router.pathname.startsWith("/auth");
-  return !isAuthPage ? (
+  const isProfileSetupPage = router.pathname.startsWith("/profilesetup");
+  return !isAuthPage && !isProfileSetupPage ? (
     <Layout>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
