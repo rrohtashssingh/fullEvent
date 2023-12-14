@@ -1,7 +1,32 @@
 import Image from "next/image";
 import { Popover } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 export default function TopNavigation() {
+  const router = useRouter();
+  const goTo = (event: string) => {
+    switch (event) {
+      case "community":
+        router.push("/community");
+        break;
+      case "events":
+        router.push("/events");
+        break;
+      case "hwu":
+        router.push("/hiretalent");
+        break;
+      case "fw":
+        router.push("/findwork");
+        break;
+      case "au":
+        router.push("/aboutus");
+        break;
+      case "login":
+        router.push("/auth");
+        break;
+    }
+    return true;
+  };
   return (
     <header className="bg-primary-color text-primary-text-color font-primary-family">
       <nav
@@ -9,7 +34,7 @@ export default function TopNavigation() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <span className="-m-1.5 p-1.5">
             <span className="sr-only">BitShala</span>
             <Image
               className="h-8 w-auto"
@@ -18,29 +43,47 @@ export default function TopNavigation() {
               width="100"
               height="100"
             />
-          </a>
+          </span>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <span
+            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => goTo("community")}
+          >
             Community
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </span>
+          <span
+            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => goTo("events")}
+          >
             Events
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </span>
+          <span
+            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => goTo("hwu")}
+          >
             Hire With Us
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </span>
+          <span
+            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => goTo("fw")}
+          >
             Find Work
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </span>
+          <span
+            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => goTo("au")}
+          >
             About Us
-          </a>
+          </span>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <span
+            className="text-sm font-semibold leading-6 text-gray-900"
+            onClick={() => goTo("login")}
+          >
             Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          </span>
         </div>
       </nav>
     </header>
