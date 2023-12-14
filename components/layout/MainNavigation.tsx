@@ -4,7 +4,7 @@ export default function MainNavigation() {
   return (
     <div>
       <TopNavigation />
-      <BottomNavigation />
+      {/* <BottomNavigation /> */}
     </div>
   );
 }
