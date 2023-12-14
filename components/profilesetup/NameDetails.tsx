@@ -17,6 +17,11 @@ const NameDetails: React.FC<NameDetailsProps> = ({ onProfileTypeSelected }) => {
     updateFullName(firstName, e.target.value);
   };
 
+  const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastName(e.target.value);
+    updateFullName(fullName, e.target.value);
+  };
+
   const updateFullName = (first: string, last: string) => {
     setFullName(`${first} ${last}`);
   };
@@ -42,7 +47,7 @@ const NameDetails: React.FC<NameDetailsProps> = ({ onProfileTypeSelected }) => {
       <br />
       <label>
         Full Name:
-        <input type="text" value={fullName} readOnly />
+        <input type="text" value={fullName} onChange={handleFullNameChange} />
       </label>
       <br />
       <button type="submit">Submit</button>

@@ -1,3 +1,4 @@
+import EducationDetails from "@/components/profilesetup/EducationDetails";
 import NameDetails from "@/components/profilesetup/NameDetails";
 import ProfileType from "@/components/profilesetup/ProfileType";
 import PrimaryButton from "@/components/util/PrimaryButton";
@@ -19,6 +20,10 @@ export default function Page() {
     2: {
       name: "Add Profile Name",
       component: NameDetails,
+    },
+    3: {
+      name: "Education Details",
+      component: EducationDetails,
     },
   };
 
