@@ -1,5 +1,59 @@
+import apiUtil from "@/lib/api-util";
 import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+
 export default function Page() {
+  const router = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!username || !password) {
+      // handle empty check?
+    }
+    try {
+      const body = {
+        email,
+        username,
+        password,
+      };
+      const { error, data } = await apiUtil.postRequest("/user/signup", body);
+      if (error) {
+        let errorMessage = error?.message || "Bad Request";
+        if (error?.data?.error && typeof error?.data?.error === "string") {
+          console.log("in here");
+          errorMessage = error?.data?.error;
+        }
+        toast.error(errorMessage);
+      }
+      if (data && data.status === 201) {
+        // error toaster and return
+        toast.success("Success");
+        router.replace("/auth/login");
+      }
+    } catch (error) {
+      toast.error("Internal Server Error");
+    }
+  };
+
+  const routeToLogin = () => {
+    router.replace("/auth/signup");
+  };
+
   return (
     <>
       {/*
@@ -25,7 +79,7 @@ export default function Page() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -39,7 +93,26 @@ export default function Page() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  onChange={handleEmailChange}
                   required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Username
+              </label>
+              <div className="mt-2">
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  required
+                  onChange={handleUsernameChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -68,6 +141,7 @@ export default function Page() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  onChange={handlePasswordChange}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -86,12 +160,12 @@ export default function Page() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already a member?{" "}
-            <a
-              href="auth/login"
+            <span
+              onClick={routeToLogin}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Click Here To Login
-            </a>
+            </span>
           </p>
         </div>
       </div>

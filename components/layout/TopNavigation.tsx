@@ -7,22 +7,22 @@ export default function TopNavigation() {
   const goTo = (event: string) => {
     switch (event) {
       case "community":
-        router.push("/community");
+        router.replace("/community");
         break;
       case "events":
-        router.push("/events");
+        router.replace("/events");
         break;
       case "hwu":
-        router.push("/hiretalent");
+        router.replace("/hiretalent");
         break;
       case "fw":
-        router.push("/findwork");
+        router.replace("/findwork");
         break;
       case "au":
-        router.push("/aboutus");
+        router.replace("/aboutus");
         break;
       case "login":
-        router.push("/auth");
+        router.replace("/auth");
         break;
     }
     return true;

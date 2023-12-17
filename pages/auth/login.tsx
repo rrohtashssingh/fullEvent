@@ -1,5 +1,64 @@
+import { useState } from "react";
 import Image from "next/image";
+import apiUtil from "@/lib/api-util";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+
 export default function Page() {
+  const router = useRouter();
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!username || !password) {
+      // handle empty check?
+    }
+    try {
+      const body = {
+        username,
+        password,
+      };
+      const { error, data } = await apiUtil.postRequest("/user/login", body);
+      if (error) {
+        let errorMessage = error?.message || "Bad Request";
+        if (error?.data?.error && typeof error?.data?.error === "string") {
+          console.log("in here");
+          errorMessage = error?.data?.error;
+        }
+        toast.error(errorMessage);
+      }
+      console.log("data from ", JSON.stringify(data));
+      const token = data?.data?.token;
+      const profileSetup = data?.data?.profileSetup ? "true" : "false";
+      if (!token) {
+        toast.error("No Token Recieved, Try Again");
+      }
+      sessionStorage.setItem("accessToken", token);
+      sessionStorage.setItem("profilesetup", profileSetup);
+      if (profileSetup === "true") {
+        router.replace("/events");
+      } else {
+        router.replace("/profilesetup");
+      }
+    } catch (error) {
+      toast.error("Internal Server Error");
+      console.log("handler for response error?");
+    }
+  };
+
+  const routeToSignup = () => {
+    console.log("what is over here is over here");
+    router.replace("/auth/signup");
+  };
+
   return (
     <>
       {/*
@@ -25,20 +84,20 @@ export default function Page() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Email address
+                Username
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="username"
+                  name="username"
+                  type="text"
+                  onChange={handleUsernameChange}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -69,6 +128,7 @@ export default function Page() {
                   type="password"
                   autoComplete="current-password"
                   required
+                  onChange={handlePasswordChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -86,12 +146,12 @@ export default function Page() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
-            <a
-              href="auth/signup"
+            <span
+              onClick={routeToSignup}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Click Here To Signup Now
-            </a>
+            </span>
           </p>
         </div>
       </div>
