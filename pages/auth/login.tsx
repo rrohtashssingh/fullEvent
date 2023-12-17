@@ -3,6 +3,7 @@ import Image from "next/image";
 import apiUtil from "@/lib/api-util";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import SocialAuth from "@/components/socials/SocialAuth";
 
 export default function Page() {
   const router = useRouter();
@@ -132,6 +133,10 @@ export default function Page() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
+            </div>
+            <div className="flex items-center justify-center">
+              <SocialAuth auth="google" />
+              <SocialAuth auth="github" />
             </div>
 
             <div>

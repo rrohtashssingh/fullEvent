@@ -1,7 +1,7 @@
 import axios from "axios"
-import { error } from "console"
 var backendUrl = "http://localhost:3001/api" 
 const apiUtil = {
+    backendUrl: backendUrl,
     async postRequest(endPoint: String, data = {}, headers = {}): Promise<any> {
         const url = backendUrl + endPoint
         const options = {
