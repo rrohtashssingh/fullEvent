@@ -1,5 +1,6 @@
 import Table from "@/components/util/Table";
 import Tab from "@/components/util/Tab";
+import FullEvent from "./FullEvent";
 export default function Page() {
   const header = ["Event Name", "Description", "Date", "Created By"];
   const tabs = ["All Events", "My Events", "Registered Events"];
@@ -37,6 +38,9 @@ export default function Page() {
       </div>
       <div className="p-4">
         <Table data={data} header={header} />
+      </div>
+      <div className="p-6">
+        <FullEvent/>
       </div>
     </>
   );
