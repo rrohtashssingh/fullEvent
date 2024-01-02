@@ -1,0 +1,71 @@
+// Fetch.tsx
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import Card from "../Card";// Import your Card component
+
+interface DataFetch {
+    title: string;
+    venue: string;
+    offline: string;
+    online: string;
+    description: string;
+    date: number;
+    urlToImage: string;
+}
+
+const Fetch: React.FC = () => {
+    const [data, setData] = useState<DataFetch[]>([]);
+    const [query, setQuery] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        setLoading(true);
+        const fetchData = async () => {
+            try {
+                if (query.trim() === '') {
+                    const response = await axios.get('https://newsapi.org/v2/everything?q=bitcoin&apiKey=073988eab35344e3a3ca94fdf88134bb');
+                    setData(response.data.articles);
+                } else {
+                    const response = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=073988eab35344e3a3ca94fdf88134bb`);
+                    setData(response.data.articles);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [query]);
+
+    const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        // Implement your search logic if needed
+    };
+
+    return (
+        <>
+            {/* Input box */}
+            <div className='flex justify-end align-center'>
+                <div className="form relative search">
+                    <input className='p-2 rounded-l-lg border-2 border-black w-60' onChange={(e) => setQuery(e.target.value)} type="text" placeholder='Search Events Here' />
+                    <button onClick={()=>handleSearch} className="bg-sky-600 text-white rounded-r-lg outline-none border-2 border-black p-2 text-base">Search</button>
+                </div>
+            </div>
+
+            {/* Display data */}
+            <div className="flex flex-wrap">
+                {loading ? (
+                    <div>Loading...</div>
+                ) : (
+                    data.map((article, index) => (
+                        <Card key={index} data={article} />
+                    ))
+                )}
+            </div>
+        </>
+    );
+};
+
+export default Fetch;

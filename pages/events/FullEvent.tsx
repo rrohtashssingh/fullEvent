@@ -1,39 +1,30 @@
 "use client"
-import React from 'react'
+import React, { FormEventHandler, useState } from 'react'
 import { FaSearch } from "react-icons/fa";
-import Card from './Card';
-
+import Fetch from './api/fetch';
 
 
 const FullEvent = () => {
+    
+
     return (
         <>
-                <div className='d-flex justify-content-end align-items-center bg-blue-500'>
-                    <div className="form search">
-                        <input className='p-1 text-lg rounded-left' type="text" placeholder='Search Events Here' />
-                        <button className=" bg-primary text-white rounded-0 outline-none p-2 text-sm">Search</button>
-                    </div>
-                </div>
-            <main className='xl:px-20'>
-                <div className="forYou mt-36">
-                    <h1 className=' text-5xl px-16 pl-0 text-black'><b>FOR YOU</b></h1>
+            <main className='xl:px-12'>
+                <h1 className='text-4xl my-16 flex justify-start pl-0'><b>FOR YOU</b></h1>
+                <div className="forYou rounded-3xl px-7 bg-purple-100 ">
                     <hr className='h-0 bg-black ' />
-                   <Card watched={23}/>
+                    <Fetch/>
                 </div>
-                <div className="latest mt-36">
-                <h1 className=' p-0 text-5xl px-36 pt-10 text-black'><b>LATEST EVENTS</b></h1>
-                <hr className='h-0 bg-black ' />
-                <Card watched={20}/>
+                <h1 className='text-4xl my-16 flex justify-start pl-0'><b>Latest Events</b></h1>
+                <div className="latest rounded-3xl px-7 bg-purple-100 ">
+                    <hr className='h-0 bg-black ' />
+                    <Fetch />
                 </div>
-                
-                <div className="History mt-36">
-                <h1 className=' p-0 text-5xl px-36 pt-10 text-black'><b>HISTORY</b></h1>
-                <hr className='h-0 bg-black ' />
-                   <Card watched={23}/>
-                </div>
-                <div className="evental grid-cols-2">
-                    
 
+                <h1 className='text-4xl my-16 flex justify-start pl-0'><b>History</b></h1>
+                <div className="history rounded-3xl px-7 bg-purple-100 ">
+                    <hr className='h-0 bg-black ' />
+                    <Fetch/>
                 </div>
             </main>
         </>
